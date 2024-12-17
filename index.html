@@ -12,6 +12,16 @@
             background-color: #f4f4f9;
             padding: 20px;
         }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .required::after {
+            content: " *";
+            color: red;
+            font-size: 14px;
+        }
         input, textarea, button {
             width: 100%;
             margin-bottom: 10px;
@@ -32,28 +42,28 @@
 <body>
     <h1>טופס פתיחת לקוח חדש</h1>
     <form id="customerForm">
-        <label>שם החברה</label>
+        <label class="required">שם החברה</label>
         <input type="text" id="companyName" required>
 
-        <label>כתובת</label>
+        <label class="required">כתובת</label>
         <input type="text" id="address" required>
 
         <label>מיקוד</label>
         <input type="text" id="postalCode">
 
-        <label>מספר ח"פ/עוסק מורשה</label>
+        <label class="required">מספר ח"פ/עוסק מורשה</label>
         <input type="text" id="taxId" required>
 
-        <label>שם איש קשר</label>
+        <label class="required">שם איש קשר</label>
         <input type="text" id="contactName" required>
 
-        <label>טלפון</label>
+        <label class="required">טלפון</label>
         <input type="text" id="contactPhone" required>
 
-        <label>דוא"ל</label>
+        <label class="required">דוא"ל</label>
         <input type="email" id="contactEmail" required>
 
-        <label>כתובות מייל לשליחת חשבוניות</label>
+        <label class="required">כתובות מייל לשליחת חשבוניות</label>
         <textarea id="billingEmails" required></textarea>
 
         <button type="button" onclick="submitForm()">שלח</button>
