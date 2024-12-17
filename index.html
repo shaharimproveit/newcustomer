@@ -48,19 +48,40 @@
         <input type="text" id="contactName" required>
 
         <label>טלפון</label>
-        <input type="text" id="contactPhone">
+        <input type="text" id="contactPhone" required>
 
         <label>דוא"ל</label>
         <input type="email" id="contactEmail" required>
 
         <label>כתובות מייל לשליחת חשבוניות</label>
-        <textarea id="billingEmails"></textarea>
+        <textarea id="billingEmails" required></textarea>
 
         <button type="button" onclick="submitForm()">שלח</button>
     </form>
 
     <script>
     function submitForm() {
+        // השגת כל השדות הנדרשים
+        const requiredFields = document.querySelectorAll('#customerForm [required]');
+        let valid = true;
+
+        // בדיקת כל השדות
+        requiredFields.forEach(field => {
+            if (!field.value.trim()) {
+                valid = false;
+                field.style.border = '2px solid red'; // מסגרת אדומה לשדה הריק
+            } else {
+                field.style.border = '1px solid #ccc'; // שחזור מסגרת רגילה
+            }
+        });
+
+        // אם יש שדות ריקים, הצגת הודעה ומניעת שליחה
+        if (!valid) {
+            alert('יש למלא את כל השדות המסומנים בכוכבית לפני שליחת הטופס.');
+            return;
+        }
+
+        // הכנת הנתונים לשליחה
         const formData = new URLSearchParams();
         formData.append('companyName', document.getElementById('companyName').value);
         formData.append('address', document.getElementById('address').value);
@@ -71,6 +92,7 @@
         formData.append('contactEmail', document.getElementById('contactEmail').value);
         formData.append('billingEmails', document.getElementById('billingEmails').value);
 
+        // שליחת הנתונים לשרת
         fetch('https://script.google.com/macros/s/AKfycbxexPbyVw_deiopNy9EMcPnNUTWWri_HU1B7qRwwlILPN1o0AE8TiSmqvPEf82fgL6QyQ/exec', {
             method: 'POST',
             headers: {
@@ -92,6 +114,6 @@
             alert('אירעה שגיאה בשליחת הנתונים.');
         });
     }
-</script>
+    </script>
 </body>
 </html>
