@@ -60,36 +60,38 @@
     </form>
 
     <script>
-        function submitForm() {
-            const formData = {
-                companyName: document.getElementById('companyName').value,
-                address: document.getElementById('address').value,
-                postalCode: document.getElementById('postalCode').value,
-                taxId: document.getElementById('taxId').value,
-                contactName: document.getElementById('contactName').value,
-                contactPhone: document.getElementById('contactPhone').value,
-                contactEmail: document.getElementById('contactEmail').value,
-                billingEmails: document.getElementById('billingEmails').value
-            };
+    function submitForm() {
+        const formData = new URLSearchParams();
+        formData.append('companyName', document.getElementById('companyName').value);
+        formData.append('address', document.getElementById('address').value);
+        formData.append('postalCode', document.getElementById('postalCode').value);
+        formData.append('taxId', document.getElementById('taxId').value);
+        formData.append('contactName', document.getElementById('contactName').value);
+        formData.append('contactPhone', document.getElementById('contactPhone').value);
+        formData.append('contactEmail', document.getElementById('contactEmail').value);
+        formData.append('billingEmails', document.getElementById('billingEmails').value);
 
-            fetch('https://script.google.com/macros/s/AKfycbwbB46c88iQyp4zW4Afc5x_8Cf_C0GNUwLST2qY6KPJkS1jkolKILk7TyuwrMP3rBXTXA/exec', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    mode: 'no-cors', // עקיפת בעיית CORS
-    body: JSON.stringify(formData)
-})
-.then(() => {
-    // במקרה של no-cors אי אפשר לקרוא את התגובה
-    alert('הטופס נשלח בהצלחה!');
-    document.getElementById('customerForm').reset();
-})
-.catch(error => {
-    console.error('Error:', error);
-    alert('אירעה שגיאה בשליחת הנתונים.');
-});
-        }
-    </script>
+        fetch('https://script.google.com/macros/s/AKfycbxvTjdC_pRv5nZk9QeUdh5_TlFFbkJrdpdJ0bfg9QRLMRfhUTvYnmTXAfnN_GniMNBu2Q/exec', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: formData.toString()
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.status === 'success') {
+                alert('הנתונים נשמרו בהצלחה!');
+                document.getElementById('customerForm').reset();
+            } else {
+                alert('שגיאה: ' + result.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('אירעה שגיאה בשליחת הנתונים.');
+        });
+    }
+</script>
 </body>
 </html>
