@@ -12,6 +12,23 @@
             background-color: #f4f4f9;
             padding: 20px;
         }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .logo {
+            display: block;
+            margin: 0 auto 20px;
+            width: 150px; /* גודל מותאם של הלוגו */
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
         label {
             font-weight: bold;
             display: block;
@@ -33,6 +50,7 @@
             color: white;
             border: none;
             cursor: pointer;
+            font-size: 16px;
         }
         button:hover {
             background-color: #0056b3;
@@ -40,58 +58,62 @@
     </style>
 </head>
 <body>
-    <h1>טופס פתיחת לקוח חדש</h1>
-    <form id="customerForm">
-        <label class="required">שם החברה</label>
-        <input type="text" id="companyName" required>
+    <div class="container">
+        <!-- הלוגו -->
+        <img src="logo improve-it.png" alt="Improve-IT Logo" class="logo">
+        
+        <!-- כותרת -->
+        <h1>טופס פתיחת לקוח חדש</h1>
+        
+        <!-- הטופס -->
+        <form id="customerForm">
+            <label class="required">שם החברה</label>
+            <input type="text" id="companyName" required>
 
-        <label class="required">כתובת</label>
-        <input type="text" id="address" required>
+            <label class="required">כתובת</label>
+            <input type="text" id="address" required>
 
-        <label>מיקוד</label>
-        <input type="text" id="postalCode">
+            <label>מיקוד</label>
+            <input type="text" id="postalCode">
 
-        <label class="required">מספר ח"פ/עוסק מורשה</label>
-        <input type="text" id="taxId" required>
+            <label class="required">מספר ח"פ/עוסק מורשה</label>
+            <input type="text" id="taxId" required>
 
-        <label class="required">שם איש קשר</label>
-        <input type="text" id="contactName" required>
+            <label class="required">שם איש קשר</label>
+            <input type="text" id="contactName" required>
 
-        <label class="required">טלפון</label>
-        <input type="text" id="contactPhone" required>
+            <label class="required">טלפון</label>
+            <input type="text" id="contactPhone" required>
 
-        <label class="required">דוא"ל</label>
-        <input type="email" id="contactEmail" required>
+            <label class="required">דוא"ל</label>
+            <input type="email" id="contactEmail" required>
 
-        <label class="required">כתובות מייל לשליחת חשבוניות</label>
-        <textarea id="billingEmails" required></textarea>
+            <label class="required">כתובות מייל לשליחת חשבוניות</label>
+            <textarea id="billingEmails" required></textarea>
 
-        <button type="button" onclick="submitForm()">שלח</button>
-    </form>
+            <button type="button" onclick="submitForm()">שלח</button>
+        </form>
+    </div>
 
     <script>
     function submitForm() {
-        // השגת כל השדות הנדרשים
         const requiredFields = document.querySelectorAll('#customerForm [required]');
         let valid = true;
 
-        // בדיקת כל השדות
         requiredFields.forEach(field => {
             if (!field.value.trim()) {
                 valid = false;
-                field.style.border = '2px solid red'; // מסגרת אדומה לשדה הריק
+                field.style.border = '2px solid red';
             } else {
-                field.style.border = '1px solid #ccc'; // שחזור מסגרת רגילה
+                field.style.border = '1px solid #ccc';
             }
         });
 
-        // אם יש שדות ריקים, הצגת הודעה ומניעת שליחה
         if (!valid) {
             alert('יש למלא את כל השדות המסומנים בכוכבית לפני שליחת הטופס.');
             return;
         }
 
-        // הכנת הנתונים לשליחה
         const formData = new URLSearchParams();
         formData.append('companyName', document.getElementById('companyName').value);
         formData.append('address', document.getElementById('address').value);
@@ -102,12 +124,9 @@
         formData.append('contactEmail', document.getElementById('contactEmail').value);
         formData.append('billingEmails', document.getElementById('billingEmails').value);
 
-        // שליחת הנתונים לשרת
         fetch('https://script.google.com/macros/s/AKfycbxexPbyVw_deiopNy9EMcPnNUTWWri_HU1B7qRwwlILPN1o0AE8TiSmqvPEf82fgL6QyQ/exec', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: formData.toString()
         })
         .then(response => response.json())
