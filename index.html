@@ -89,7 +89,7 @@
             <input type="email" id="contactEmail" required>
 
             <label class="required">שם איש קשר לניהול כספים וגבייה</label>
-            <input type="text" id="billingContanct" required>
+            <input type="text" id="billingContact" required>
 
             <label class="required">כתובות מייל לשליחת חשבוניות</label>
             <textarea type="email" id="billingEmails" required></textarea>
@@ -125,7 +125,7 @@
         formData.append('contactName', document.getElementById('contactName').value);
         formData.append('contactPhone', document.getElementById('contactPhone').value);
         formData.append('contactEmail', document.getElementById('contactEmail').value);
-        formData.append('billingContanct', document.getElementById('billingContanct').value);
+        formData.append('billingContact', document.getElementById('billingContact').value);
         formData.append('billingEmails', document.getElementById('billingEmails').value);
 
         fetch('https://script.google.com/macros/s/AKfycbyEIJ1O7B5yiKOVswGNtgiL9_C6bgypOwfKzrTCen2MKhe1mPENB0XpqGgQvjch35kMzA/exec', {
