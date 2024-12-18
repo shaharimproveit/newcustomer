@@ -55,6 +55,31 @@
         button:hover {
             background-color: #0056b3;
         }
+
+        /* עיצוב הספינר */
+        #loadingSpinner {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .spinner {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
@@ -92,10 +117,15 @@
             <input type="text" id="billingContact" required>
 
             <label class="required">כתובות מייל לשליחת חשבוניות</label>
-            <textarea type="email" id="billingEmails" required></textarea>
+            <textarea id="billingEmails" required></textarea>
 
             <button type="button" onclick="submitForm()">שלח</button>
         </form>
+    </div>
+
+    <!-- ספינר טעינה -->
+    <div id="loadingSpinner">
+        <div class="spinner"></div>
     </div>
 
     <script>
@@ -117,6 +147,9 @@
             return;
         }
 
+        // הצגת ספינר טעינה
+        document.getElementById('loadingSpinner').style.display = 'block';
+
         const formData = new URLSearchParams();
         formData.append('companyName', document.getElementById('companyName').value);
         formData.append('address', document.getElementById('address').value);
@@ -135,6 +168,9 @@
         })
         .then(response => response.json())
         .then(result => {
+            // הסתרת הספינר
+            document.getElementById('loadingSpinner').style.display = 'none';
+
             if (result.status === 'success') {
                 alert('הנתונים נשמרו בהצלחה!');
                 document.getElementById('customerForm').reset();
@@ -143,6 +179,9 @@
             }
         })
         .catch(error => {
+            // הסתרת הספינר במקרה של שגיאה
+            document.getElementById('loadingSpinner').style.display = 'none';
+
             console.error('Error:', error);
             alert('אירעה שגיאה בשליחת הנתונים.');
         });
